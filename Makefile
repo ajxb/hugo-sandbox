@@ -15,7 +15,7 @@ build:
 
 # Run a cli instance of Hugo
 cli: init
-	docker compose run cli
+	docker compose run --rm cli
 
 # Remove the running instance of Hugo
 down:
