@@ -10,11 +10,12 @@ RUN chmod 0440 /etc/sudoers.d/hugo
 ARG GROUP_ID
 ARG USER_ID
 
+# Configure the system
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked <<EOF
   set -ex
 
   apt update
-  apt install --yes less sudo
+  apt install --yes less sudo vim
 
   # Delete user - ubuntu
   deluser --remove-all ubuntu
