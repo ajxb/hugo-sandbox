@@ -4,7 +4,7 @@ export USER_ID?=$(shell id -u)
 export HUGO_PARAMS
 export NGROK_URL?=
 
-.PHONY: all build cli down expose hide init restart up
+.PHONY: all build clean cli down expose hide init restart up
 .PHONY: confirm
 
 all: build up
@@ -12,6 +12,11 @@ all: build up
 # Build Docker images required by Docker Compose
 build:
 	docker compose build cli hugo
+
+# Clean the system - removes built images and volumes
+clean: down
+	-docker rmi $$(docker compose --profile cli --profile server config --images)
+	-docker volume rm $$(docker compose --profile cli --profile server config | yq '.volumes.*.name')
 
 # Run a cli instance of Hugo
 cli: init
