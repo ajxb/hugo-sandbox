@@ -21,6 +21,9 @@ services:
       - hugo-history:/home/hugo/history
 
   hugo:
+    profiles:
+      - expose
+      - server
     build:
       context: images/hugo
       args:

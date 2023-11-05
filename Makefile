@@ -19,16 +19,16 @@ cli: init
 
 # Remove the running instance of Hugo
 down:
-	docker compose --profile expose down
+	docker compose --profile expose --profile server down
 
 # Expose the Hugo instance to the internet using ngrok
 expose: init
-	HUGO_PARAMS="--appendPort=false --baseURL=$(NGROK_URL)" docker compose --profile expose up --detach
+	HUGO_PARAMS="--appendPort=false --baseURL=$(NGROK_URL)" docker compose --profile expose --profile server up --detach
 
 # Hide the Hugo instance from the internet
 hide:
 	docker compose stop ngrok
-	docker compose up hugo --detach
+	docker compose --profile server up --detach
 
 # Initialise the system
 init:
@@ -39,4 +39,4 @@ restart: down up
 
 # Start the Hugo instance
 up: init
-	docker compose up hugo --detach
+	docker compose --profile server up --detach
