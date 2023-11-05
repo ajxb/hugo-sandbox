@@ -17,6 +17,7 @@ services:
     working_dir: /home/hugo/src
     volumes:
       - ./src:/home/hugo/src
+      - hugo-cache:/tmp/hugo
 
   hugo:
     build:
@@ -29,6 +30,7 @@ services:
     working_dir: /home/hugo/src
     volumes:
       - ./src:/home/hugo/src
+      - hugo-cache:/tmp/hugo
     ports:
       - "${HUGO_PORT}:1313"
     restart: always
@@ -44,3 +46,6 @@ services:
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     command: http hugo:1313 --domain=${NGROK_URL}
+
+volumes:
+  hugo-cache:

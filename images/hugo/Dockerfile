@@ -25,8 +25,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked <<EOF
 
   # Configure the hugo user
   sudo -u hugo git config --global init.defaultBranch main
+  sudo -u hugo mkdir /tmp/hugo
 EOF
 
 USER hugo
 ENV HOME=/home/hugo
+ENV HUGO_CACHEDIR=/tmp/hugo
 WORKDIR /home/hugo/src
