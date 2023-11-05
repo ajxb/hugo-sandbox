@@ -22,13 +22,26 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked <<EOF
   # Add user - hugo
   groupadd --gid ${GROUP_ID} hugo
   useradd --home /home/hugo --gid hugo --groups sudo --create-home --shell /bin/bash --uid ${USER_ID} hugo
-
-  # Configure the hugo user
-  sudo -u hugo git config --global init.defaultBranch main
-  sudo -u hugo mkdir /tmp/hugo
 EOF
 
+# Configure the hugo user
 USER hugo
+WORKDIR /home/hugo
 ENV HOME=/home/hugo
 ENV HUGO_CACHEDIR=/tmp/hugo
+RUN <<EOF
+  set -ex
+
+  # Configure the comand history
+  mkdir ~/history
+  echo "export PROMPT_COMMAND='history -a'" >> .bashrc
+  echo "export HISTFILE=~/history/.bash_history" >> .bashrc
+
+  # Configure git
+  git config --global init.defaultBranch main
+
+  # Create tmp folder for hugo
+  mkdir /tmp/hugo
+EOF
+
 WORKDIR /home/hugo/src

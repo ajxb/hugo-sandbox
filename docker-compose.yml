@@ -18,6 +18,7 @@ services:
     volumes:
       - ./src:/home/hugo/src
       - hugo-cache:/tmp/hugo
+      - hugo-history:/home/hugo/history
 
   hugo:
     build:
@@ -49,3 +50,4 @@ services:
 
 volumes:
   hugo-cache:
+  hugo-history:
