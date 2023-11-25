@@ -1,4 +1,8 @@
 SHELL=/usr/bin/env bash
+
+include .env
+export
+
 export GROUP_ID?=$(shell id -g)
 export USER_ID?=$(shell id -u)
 export HUGO_PARAMS
@@ -29,6 +33,7 @@ down:
 # Expose the Hugo instance to the internet using ngrok
 expose: init
 	HUGO_PARAMS="--appendPort=false --baseURL=$(NGROK_URL)" docker compose --profile expose --profile server up --detach
+	@echo "Hugo instance exposed at https://$(NGROK_URL)"
 
 # Hide the Hugo instance from the internet
 hide:
@@ -45,3 +50,4 @@ restart: down up
 # Start the Hugo instance
 up: init
 	docker compose --profile server up --detach
+	@echo "Hugo instance started at http://localhost:$(HUGO_PORT)"
