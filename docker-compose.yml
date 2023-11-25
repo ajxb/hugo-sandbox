@@ -30,13 +30,13 @@ services:
         HUGO_VERSION: ${HUGO_VERSION}
         GROUP_ID: ${GROUP_ID}
         USER_ID: ${USER_ID}
-    command: server --buildDrafts ${HUGO_PARAMS}
+    command: server --buildDrafts ${HUGO_PARAMS} --port ${HUGO_PORT}
     working_dir: /home/hugo/src
     volumes:
       - ./src:/home/hugo/src
       - hugo-cache:/tmp/hugo
     ports:
-      - "${HUGO_PORT}:1313"
+      - "${HUGO_PORT}:${HUGO_PORT}"
     restart: always
 
   ngrok:
@@ -49,7 +49,7 @@ services:
       - "${NGROK_PORT}:4040"
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-    command: http hugo:1313 --domain=${NGROK_URL}
+    command: http hugo:${HUGO_PORT} --domain=${NGROK_URL}
 
 volumes:
   hugo-cache:
