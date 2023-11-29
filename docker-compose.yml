@@ -8,6 +8,7 @@ services:
     build:
       context: images/hugo
       args:
+        DART_SASS_VERSION: ${DART_SASS_VERSION}
         HUGO_VERSION: ${HUGO_VERSION}
         GROUP_ID: ${GROUP_ID}
         USER_ID: ${USER_ID}

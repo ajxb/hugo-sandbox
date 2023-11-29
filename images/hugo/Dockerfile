@@ -7,6 +7,7 @@ SHELL ["/usr/bin/env", "bash", "-c"]
 COPY ./files/etc/ /etc/
 RUN chmod 0440 /etc/sudoers.d/hugo
 
+ARG DART_SASS_VERSION=1.69.5
 ARG GROUP_ID
 ARG USER_ID
 
@@ -23,6 +24,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked <<EOF
   # Add user - hugo
   groupadd --gid ${GROUP_ID} hugo
   useradd --home /home/hugo --gid hugo --groups sudo --create-home --shell /bin/bash --uid ${USER_ID} hugo
+
+  # Uninstall dart sass embedded
+  unlink /usr/local/bin/dart-sass-embedded
+
+  # Install dart sass
+  wget https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz -O /tmp/sass.tar.gz
+  tar -zxvf /tmp/sass.tar.gz -C /usr/local/lib
+  ln -s /usr/local/lib/dart-sass/sass /usr/local/bin/sass
+  rm -fr /tmp/sass.tar.gz
 EOF
 
 # Configure the hugo user
