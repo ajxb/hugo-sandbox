@@ -38,6 +38,8 @@ services:
       - hugo-cache:/tmp/hugo
     ports:
       - "${HUGO_PORT}:${HUGO_PORT}"
+    environment:
+      - HUGO_ENV=development
     restart: always
 
   ngrok:
